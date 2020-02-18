@@ -2,17 +2,37 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+    //video.load("videos/Slice 1.mp4");
+    
+    slice_width = 192;
+    how_many_slices = 10;
+    
+    for(int i=1; i<=how_many_slices; i++){
+        lake[i-1].load("videos/Slice " + ofToString(i) + ".mp4");
+        //lake[i-1].setSpeed(ofRandom(.2, .9));
+        float temp_n = i;
+        lake[i-1].setSpeed( 1.5 - ( temp_n/10) );
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+    //video.update();
+    for(int i=1; i<=how_many_slices; i++){
+        lake[i-1].update();
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+    //video.draw(0,0);
+    //video.play();
+    
+    for(int i=1; i<=how_many_slices; i++){
+        
+        lake[i-1].draw( (i-1) * slice_width , 0);
+        lake[i-1].play();
+    }
 }
 
 //--------------------------------------------------------------
