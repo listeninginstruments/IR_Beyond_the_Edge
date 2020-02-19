@@ -26,5 +26,36 @@ class ofApp : public ofBaseApp{
     ofVideoPlayer lake[10];
     int how_many_slices;
     float slice_width;
+    
+    
+    ofJson jsn;
+    ofJson mainWM;
+    ofTrueTypeFont ttf;
+    
+    int year;
+    int wolves;
+    int moose;
+    
+    void advanceData();
+    void drawData();
+    int curr_n;
+    
+    std::string text;
+    
+    ofFile file;
+    
+    
+    // --- | Timer
+    void delayStart(float s);
+      void delayTimer();
+      void delayFire();
+      float delay_time;
+      float count;
+    
+    
+    void setAudioVals();
+    ofSoundPlayer snd1;
+    ofSoundPlayer snd2;
+    
 
 };
