@@ -26,6 +26,10 @@ class ofApp : public ofBaseApp{
     ofVideoPlayer lake[10];
     int how_many_slices;
     float slice_width;
+    float vidwidth = 1920;
+    float vidheight = 1080;
+    int vidleft;
+    int vidtop;
     
     
     ofJson jsn;
@@ -36,6 +40,8 @@ class ofApp : public ofBaseApp{
     int year;
     int wolves;
     int moose;
+    float kill;
+    float predation;
     
     void advanceData();
     void drawData();

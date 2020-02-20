@@ -8,6 +8,9 @@ void ofApp::setup(){
     how_many_slices = 10;
     curr_n = 0;
     
+    vidleft = (ofGetWindowWidth()/2) - (vidwidth/2);
+    vidtop = (ofGetWindowHeight()/2) - (vidheight/2);
+    
     ofSetFrameRate(60);
     delayStart(60);
     
@@ -20,7 +23,10 @@ void ofApp::setup(){
     
     
      ttf.load("AbrilFatface-Regular.ttf", 128);
-    label.load("AbrilFatface-Regular.ttf", 200);
+    
+    
+    //label.load("AbrilFatface-Regular.ttf", 200);
+    label.load("AbrilFatface-Regular.ttf", 45);
     
     
     ofFile file("1-population_data.json");
@@ -76,16 +82,28 @@ void ofApp::drawData(){
     wolves = ofToInt(entry["wolves"]);
     moose = ofToInt(entry["moose"]);
     
+    if(entry["kill rate"] != "N/A"){
+        //cout << entry["kill rate"] << endl;
+        kill = ofToFloat(entry["kill rate"]);
+    } else {
+        kill = 0;
+    }
     
+    if(entry["predation rate"] != "N/A"){
+        //cout << entry["predation rate"] << endl;
+        predation = ofToFloat(entry["predation rate"]);
+    } else {
+        predation = 0;
+    }
     
     ofSetColor(255);
     
     ofPushMatrix();
-    ofTranslate(0, 750);
+    ofTranslate(vidleft, vidleft + 750);
     ofRotateZDeg(-90);
     ttf.drawString(ofToString(year), 0, slice_width);
-    ttf.drawString(ofToString(wolves), 0, slice_width*2);
-    ttf.drawString(ofToString(moose), 0, slice_width*3);
+    ttf.drawString(ofToString(wolves), 0, slice_width*1.83);
+    ttf.drawString(ofToString(moose), 0, slice_width*2.83);
     ofPopMatrix();
     
     /*
@@ -97,13 +115,14 @@ void ofApp::drawData(){
     ofDrawRectangle(slice_width * 2, 775, label.stringWidth("W"), 2);
     */
     
-    label.drawString("W", slice_width * .9, 1000);
+    //label.drawString("W", vidleft + slice_width * .9, vidtop + 1000);
+    label.drawString("W", vidleft + slice_width * 1.75 - 6, vidtop + 900);
     
     ofPushMatrix();
     
     ofRotateZDeg(180);
-    ofTranslate(-slice_width * 2, -1000);
-    label.drawString("W", -label.stringWidth("W"), label.stringHeight("W") - 9);
+    ofTranslate(vidleft + (-slice_width * 2) + 6, -(900 + vidtop));
+    label.drawString("W", -label.stringWidth("W"), label.stringHeight("W")-2);
     
     
     ofPopMatrix();
@@ -153,8 +172,7 @@ void ofApp::draw(){
    
     
     for(int i=1; i<=how_many_slices; i++){
-        
-        lake[i-1].draw( (i-1) * slice_width , 0);
+        lake[i-1].draw( vidleft + ( (i-1) * slice_width) , vidtop);
         lake[i-1].play();
     }
     
