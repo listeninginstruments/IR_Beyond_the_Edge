@@ -34,8 +34,10 @@ class ofApp : public ofBaseApp{
     
     ofJson jsn;
     ofJson mainWM;
+    
     ofTrueTypeFont ttf;
     ofTrueTypeFont label;
+    ofTrueTypeFont smalldata;
     
     int year;
     int wolves;
@@ -64,5 +66,7 @@ class ofApp : public ofBaseApp{
     ofSoundPlayer snd1;
     ofSoundPlayer snd2;
     
+    ofSoundPlayer snd3;
+    ofSoundPlayer snd4;
 
 };

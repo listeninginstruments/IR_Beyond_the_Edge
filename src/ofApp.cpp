@@ -4,6 +4,11 @@
 void ofApp::setup(){
     //video.load("videos/Slice 1.mp4");
     
+    //ofSetDataPathRoot("../Resources/data/");
+    
+    
+    ofBackground(0, 0, 0);
+    
     slice_width = 192;
     how_many_slices = 10;
     curr_n = 0;
@@ -12,7 +17,7 @@ void ofApp::setup(){
     vidtop = (ofGetWindowHeight()/2) - (vidheight/2);
     
     ofSetFrameRate(60);
-    delayStart(60);
+    delayStart(60 * 10);
     
     for(int i=1; i<=how_many_slices; i++){
         lake[i-1].load("videos/Slice " + ofToString(i) + ".mp4");
@@ -23,10 +28,9 @@ void ofApp::setup(){
     
     
      ttf.load("AbrilFatface-Regular.ttf", 128);
-    
-    
     //label.load("AbrilFatface-Regular.ttf", 200);
     label.load("AbrilFatface-Regular.ttf", 45);
+    smalldata.load("AbrilFatface-Regular.ttf", 16);
     
     
     ofFile file("1-population_data.json");
@@ -42,16 +46,34 @@ void ofApp::setup(){
     }
     
     
-    //IRAIR-025-Selection1-NR_st.wav
-    snd2.load("audio/IRAIR-025-Selection1-NR_st.wav");
-    snd2.setVolume(0.75);
+    //E Chicken haunt
+    snd1.load("audio/IRAIR-025-Selection1-NR_st.wav");
+    snd1.setVolume(0.5);
+    snd1.play();
+    snd1.setLoop(true);
+    
+    //waves
+    snd2.load("audio/IRAIR-042-Option2_st.wav");
+    snd2.setVolume(0.85);
     snd2.play();
     snd2.setLoop(true);
     
-    snd1.load("audio/IRAIR-042-Option2.wav");
-    snd1.setVolume(0.75);
-    snd1.play();
-    snd1.setLoop(true);
+    //McCargo rich
+    snd3.load("audio/IRAIR-062-Rich2_st.wav");
+    snd3.setVolume(0);
+    snd3.play();
+    snd3.setLoop(true);
+    
+    //McCargo rich
+    snd4.load("audio/IRAIR-061-Rich1_st.wav");
+    snd4.setVolume(0);
+    snd4.play();
+    snd4.setLoop(true);
+    
+    
+    
+    drawData();
+    setAudioVals();
     
 }
 
@@ -63,14 +85,22 @@ void ofApp::advanceData(){
    }
     
     //cout << mainWM.size() << endl;
-    
     setAudioVals();
 }
 
 //--------------------------------------------------------------
 void ofApp::setAudioVals(){
-    snd1.setSpeed( ofMap(moose, 380, 2400, .2, 2.0) );
-    snd2.setSpeed( ofMap(wolves, 2, 50, .2, 2.0) );
+    snd1.setSpeed( ofMap(wolves, 2, 50, .2, 2.0) );
+    snd2.setSpeed( ofMap(moose, 380, 2400, .2, 2.0) );
+    snd3.setSpeed( ofMap(kill, 0.2, 1.5, .2, 2.0) );
+    snd4.setSpeed( ofMap(predation, 0.007, .25, .2, 2.0) );
+    if(kill > 0){
+        snd3.setVolume(0.75);
+        snd4.setVolume(0.75);
+    } else {
+        snd3.setVolume(0);
+        snd4.setVolume(0);
+    }
 }
 
 
@@ -99,11 +129,23 @@ void ofApp::drawData(){
     ofSetColor(255);
     
     ofPushMatrix();
-    ofTranslate(vidleft, vidleft + 750);
+    ofTranslate(vidleft, vidtop + 750);
     ofRotateZDeg(-90);
     ttf.drawString(ofToString(year), 0, slice_width);
     ttf.drawString(ofToString(wolves), 0, slice_width*1.83);
     ttf.drawString(ofToString(moose), 0, slice_width*2.83);
+    
+    
+    if(kill > 0){
+        smalldata.drawString(ofToString(kill), 0, slice_width*7);
+        smalldata.drawString(ofToString(predation), 0, slice_width*8);
+        
+        ofSetColor(255, 255, 255, 100);
+        smalldata.drawString("kill rate", -smalldata.stringWidth("kill rate")-56, slice_width*7);
+        smalldata.drawString("predation rate", -smalldata.stringWidth("predation rate")-56, slice_width*8);
+        ofSetColor(255);
+    }
+    
     ofPopMatrix();
     
     /*
@@ -116,16 +158,18 @@ void ofApp::drawData(){
     */
     
     //label.drawString("W", vidleft + slice_width * .9, vidtop + 1000);
-    label.drawString("W", vidleft + slice_width * 1.75 - 6, vidtop + 900);
+    label.drawString("W", vidleft + slice_width * 1.75 - 6, vidtop + 850);
     
     ofPushMatrix();
     
     ofRotateZDeg(180);
-    ofTranslate(vidleft + (-slice_width * 2) + 6, -(900 + vidtop));
+    ofTranslate(vidleft + (-slice_width * 2) + 6, -(850 + vidtop));
     label.drawString("W", -label.stringWidth("W"), label.stringHeight("W")-2);
     
     
     ofPopMatrix();
+    
+    //ofDrawRectangle( 200, 805, 1900, 2);
     
 }
 
@@ -164,18 +208,12 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    //video.draw(0,0);
-    //video.play();
-    
-    
-    
-   
+
     
     for(int i=1; i<=how_many_slices; i++){
         lake[i-1].draw( vidleft + ( (i-1) * slice_width) , vidtop);
         lake[i-1].play();
     }
-    
     
     drawData();
     delayTimer();
