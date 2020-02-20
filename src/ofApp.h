@@ -44,6 +44,7 @@ class ofApp : public ofBaseApp{
     int moose;
     float kill;
     float predation;
+    bool icebridge;
     
     void advanceData();
     void drawData();

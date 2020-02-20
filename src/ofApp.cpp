@@ -11,6 +11,7 @@ void ofApp::setup(){
     
     slice_width = 192;
     how_many_slices = 10;
+    icebridge = 0;
     curr_n = 0;
     
     vidleft = (ofGetWindowWidth()/2) - (vidwidth/2);
@@ -33,7 +34,7 @@ void ofApp::setup(){
     smalldata.load("AbrilFatface-Regular.ttf", 16);
     
     
-    ofFile file("1-population_data.json");
+    ofFile file("1-population_data-b.json");
     if(file.exists()){
         file >> jsn;
         mainWM = jsn["Sheet1"];
@@ -49,43 +50,73 @@ void ofApp::setup(){
     //E Chicken haunt
     snd1.load("audio/IRAIR-025-Selection1-NR_st.wav");
     snd1.setVolume(0.5);
-    snd1.play();
+    //snd1.play();
     snd1.setLoop(true);
     
     //waves
     snd2.load("audio/IRAIR-042-Option2_st.wav");
     snd2.setVolume(0.85);
-    snd2.play();
+    //snd2.play();
     snd2.setLoop(true);
     
     //McCargo rich
     snd3.load("audio/IRAIR-062-Rich2_st.wav");
     snd3.setVolume(0);
-    snd3.play();
+    //snd3.play();
     snd3.setLoop(true);
     
     //McCargo rich
     snd4.load("audio/IRAIR-061-Rich1_st.wav");
     snd4.setVolume(0);
-    snd4.play();
+    //snd4.play();
     snd4.setLoop(true);
     
     
-    
+    advanceData();
     drawData();
-    setAudioVals();
     
 }
 
 //--------------------------------------------------------------
 void ofApp::advanceData(){
-    curr_n++;
+    
+    
    if(curr_n >= mainWM.size()){
        curr_n = 0;
    }
     
+    
+    
+    ofJson entry = mainWM[curr_n];
+    
+    year = ofToInt(entry["year"]);
+    wolves = ofToInt(entry["wolves"]);
+    moose = ofToInt(entry["moose"]);
+    icebridge = ofToBool(entry["ice bridges"]);
+    
+    if(entry["kill rate"] != "N/A"){
+        //cout << entry["kill rate"] << endl;
+        kill = ofToFloat(entry["kill rate"]);
+    } else {
+        kill = 0;
+    }
+    
+    if(entry["predation rate"] != "N/A"){
+        //cout << entry["predation rate"] << endl;
+        predation = ofToFloat(entry["predation rate"]);
+    } else {
+        predation = 0;
+    }
+    
+    
+    
+    
+    
     //cout << mainWM.size() << endl;
     setAudioVals();
+    
+    curr_n++;
+    
 }
 
 //--------------------------------------------------------------
@@ -106,32 +137,21 @@ void ofApp::setAudioVals(){
 
 //--------------------------------------------------------------
 void ofApp::drawData(){
-    ofJson entry = mainWM[curr_n];
     
-    year = ofToInt(entry["year"]);
-    wolves = ofToInt(entry["wolves"]);
-    moose = ofToInt(entry["moose"]);
-    
-    if(entry["kill rate"] != "N/A"){
-        //cout << entry["kill rate"] << endl;
-        kill = ofToFloat(entry["kill rate"]);
-    } else {
-        kill = 0;
-    }
-    
-    if(entry["predation rate"] != "N/A"){
-        //cout << entry["predation rate"] << endl;
-        predation = ofToFloat(entry["predation rate"]);
-    } else {
-        predation = 0;
-    }
     
     ofSetColor(255);
     
     ofPushMatrix();
     ofTranslate(vidleft, vidtop + 750);
     ofRotateZDeg(-90);
+    
+    if(icebridge){
+        ofSetColor(0,220,255);
+    }
+
     ttf.drawString(ofToString(year), 0, slice_width);
+    ofSetColor(255);
+    
     ttf.drawString(ofToString(wolves), 0, slice_width*1.83);
     ttf.drawString(ofToString(moose), 0, slice_width*2.83);
     
@@ -147,6 +167,13 @@ void ofApp::drawData(){
     }
     
     ofPopMatrix();
+    
+    if(icebridge){
+        ofSetColor(0,220,255);
+        string tmpstr = "ice bridge";
+        smalldata.drawString(tmpstr, slice_width - smalldata.stringWidth(tmpstr) - 6, vidtop + 825);
+        ofSetColor(255);
+    }
     
     /*
     label.drawString("W", (slice_width * 1.5) - (label.stringWidth("W")/2), 950);
@@ -222,7 +249,9 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if(key == 32){
+        advanceData();
+    }
 }
 
 //--------------------------------------------------------------
