@@ -31,6 +31,7 @@ class ofApp : public ofBaseApp{
     ofJson jsn;
     ofJson mainWM;
     ofTrueTypeFont ttf;
+    ofTrueTypeFont label;
     
     int year;
     int wolves;

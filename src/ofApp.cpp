@@ -20,7 +20,7 @@ void ofApp::setup(){
     
     
      ttf.load("AbrilFatface-Regular.ttf", 128);
-    
+    label.load("AbrilFatface-Regular.ttf", 200);
     
     
     ofFile file("1-population_data.json");
@@ -87,6 +87,27 @@ void ofApp::drawData(){
     ttf.drawString(ofToString(wolves), 0, slice_width*2);
     ttf.drawString(ofToString(moose), 0, slice_width*3);
     ofPopMatrix();
+    
+    /*
+    label.drawString("W", (slice_width * 1.5) - (label.stringWidth("W")/2), 950);
+    label.drawString("W", (slice_width*2.5) - (label.stringWidth("W")/2), 950);
+     */
+    /*
+    ofDrawRectangle(slice_width * .9, 775, label.stringWidth("W"), 2);
+    ofDrawRectangle(slice_width * 2, 775, label.stringWidth("W"), 2);
+    */
+    
+    label.drawString("W", slice_width * .9, 1000);
+    
+    ofPushMatrix();
+    
+    ofRotateZDeg(180);
+    ofTranslate(-slice_width * 2, -1000);
+    label.drawString("W", -label.stringWidth("W"), label.stringHeight("W") - 9);
+    
+    
+    ofPopMatrix();
+    
 }
 
 //--------------------------------------------------------------
