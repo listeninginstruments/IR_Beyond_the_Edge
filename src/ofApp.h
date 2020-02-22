@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 
+
 class ofApp : public ofBaseApp{
 
 	public:
@@ -38,6 +39,10 @@ class ofApp : public ofBaseApp{
     ofTrueTypeFont ttf;
     ofTrueTypeFont label;
     ofTrueTypeFont smalldata;
+    ofTrueTypeFont title;
+    std::string title_text;
+    
+    ofImage title_graphics;
     
     int year;
     int wolves;

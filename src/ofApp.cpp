@@ -32,7 +32,11 @@ void ofApp::setup(){
     //label.load("AbrilFatface-Regular.ttf", 200);
     label.load("AbrilFatface-Regular.ttf", 45);
     smalldata.load("AbrilFatface-Regular.ttf", 16);
+    title.load("AbrilFatface-Regular.ttf", 45);
     
+    title_graphics.load("images/IRAIR-Beyond-the-Edge-Header_01.png");
+
+    title_text = "Isle Royale Nat'l Park";
     
     ofFile file("1-population_data-b.json");
     if(file.exists()){
@@ -195,6 +199,23 @@ void ofApp::drawData(){
     
     
     ofPopMatrix();
+    
+    
+    /*
+     /// Titlte as text. Replaced with text as graphic for refined typographic control
+    ofPushMatrix();
+    ofTranslate((ofGetWindowWidth()/2)+(title.stringWidth(title_text)/2), vidtop + 25);//title.stringHeight(title_text));
+    
+    ofRotateZDeg(180);
+    
+    //ofGetWindowWidth()/2, title.stringHeight(title_text)
+    title.drawString(title_text, 0, 0);
+    
+    
+    ofPopMatrix();
+     */
+    
+    title_graphics.draw(ofGetWindowWidth()/2 - (title_graphics.getWidth() * .25)/2, 0, title_graphics.getWidth() * .25, title_graphics.getHeight() * .25);
     
     //ofDrawRectangle( 200, 805, 1900, 2);
     
