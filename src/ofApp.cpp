@@ -4,7 +4,8 @@
 void ofApp::setup(){
     //video.load("videos/Slice 1.mp4");
     
-    //ofSetDataPathRoot("../Resources/data/");
+    
+    ofSetDataPathRoot("../Resources/data/");
     
     
     ofBackground(0, 0, 0);
@@ -53,13 +54,13 @@ void ofApp::setup(){
     
     //E Chicken haunt
     snd1.load("audio/IRAIR-025-Selection1-NR_st.wav");
-    snd1.setVolume(0.5);
-    //snd1.play();
+    snd1.setVolume(0.85); //.5
+   
     snd1.setLoop(true);
     
     //waves
     snd2.load("audio/IRAIR-042-Option2_st.wav");
-    snd2.setVolume(0.85);
+    snd2.setVolume(1.0); //.85
     //snd2.play();
     snd2.setLoop(true);
     
@@ -74,6 +75,19 @@ void ofApp::setup(){
     snd4.setVolume(0);
     //snd4.play();
     snd4.setLoop(true);
+    
+    
+    //Ice Bridge
+    ice1.load("audio/IRAIR-200223-IceBridge-01.wav");
+    ice1.setVolume(0.0);
+    ice1.setLoop(true);
+    
+    
+     snd1.play();
+     snd2.play();
+     snd3.play();
+     snd4.play();
+     ice1.play();
     
     
     advanceData();
@@ -136,6 +150,12 @@ void ofApp::setAudioVals(){
         snd3.setVolume(0);
         snd4.setVolume(0);
     }
+    
+    if(icebridge){
+        ice1.setVolume(1.0);
+    } else {
+        ice1.setVolume(0.0);
+    }
 }
 
 
@@ -177,6 +197,7 @@ void ofApp::drawData(){
         string tmpstr = "ice bridge";
         smalldata.drawString(tmpstr, slice_width - smalldata.stringWidth(tmpstr) - 6, vidtop + 825);
         ofSetColor(255);
+        
     }
     
     /*
@@ -215,7 +236,7 @@ void ofApp::drawData(){
     ofPopMatrix();
      */
     
-    title_graphics.draw(ofGetWindowWidth()/2 - (title_graphics.getWidth() * .25)/2, 0, title_graphics.getWidth() * .25, title_graphics.getHeight() * .25);
+    title_graphics.draw(ofGetWindowWidth()/2 - (title_graphics.getWidth() * .25)/2, vidtop+0, title_graphics.getWidth() * .25, title_graphics.getHeight() * .25);
     
     //ofDrawRectangle( 200, 805, 1900, 2);
     

@@ -74,5 +74,7 @@ class ofApp : public ofBaseApp{
     
     ofSoundPlayer snd3;
     ofSoundPlayer snd4;
+    
+    ofSoundPlayer ice1;
 
 };
