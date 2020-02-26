@@ -5,7 +5,7 @@ void ofApp::setup(){
     //video.load("videos/Slice 1.mp4");
     
     
-    ofSetDataPathRoot("../Resources/data/");
+    //ofSetDataPathRoot("../Resources/data/");
     
     
     ofBackground(0, 0, 0);
